@@ -26,44 +26,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
 
-  //validation
   User.init({
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isEmail: { msg: "Must be a valid email address." },
-        notEmpty: { msg: "Email is required." },
-      },
-      unique: {
-        msg: 'This email is already registered.',
-      }
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: {
-          args: [8, 100], // minimum 8 char
-          msg: "Password must be at least 8 characters long."
-        },
-        notEmpty: { msg: "Password is required." },
-      }
-    },
-    role: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: 'user'
-    }
+    email: DataTypes.STRING,
+    password: DataTypes.STRING,
+    role: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'User',
-    hooks: {
-      beforeCreate: async (user) => {
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(user.password, salt);
-      },
-    },
   });
 
   //hook mailer
