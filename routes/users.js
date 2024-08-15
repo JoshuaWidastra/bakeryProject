@@ -5,7 +5,8 @@ const {
   registerUser,
   loginUser,
   showLanding,
-  logoutUser
+  logoutUser,
+  showLandingUser
 } = require("../controllers/userController");
 
 const isAuthenticated = (req, res, next) => {
@@ -18,6 +19,8 @@ const isAuthenticated = (req, res, next) => {
 
 router.get("/home", showLanding);    // landing page
 router.get("/", listUsers);          // list all users
+
+router.get("/users", showLandingUser);
 
 // registration
 router.get("/register", registerUser);  // registration form

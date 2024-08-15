@@ -10,6 +10,14 @@ const showLanding = async (req, res) => {
   }
 };
 
+const showLandingUser = async (req, res) => {
+  try {
+    res.render("Homepage-User");
+  } catch (error) {
+    res.status(500).json({ message: "Error displaying homepage user", error });
+  }
+};
+
 // list users
 const listUsers = async (req, res) => {
   try {
@@ -34,9 +42,9 @@ const registerUser = async (req, res) => {
 
       const hashedPassword = await bcrypt.hash(password, 10);
       await db.User.create({ email, password: hashedPassword, role });
-      res.render("Register", { message: "Registration successful" });
+      res.render("Login", { message: "Registration successful" });
     } else {
-      res.render("Login");
+      res.render("Register");
     }
   } catch (error) {
     res
@@ -89,4 +97,5 @@ module.exports = {
   loginUser,
   showLanding,
   logoutUser,
+  showLandingUser,
 };
