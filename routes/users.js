@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
-// controller function. for later
 const {
   listUsers,
   registerUser,
@@ -9,15 +7,15 @@ const {
   showLanding,
 } = require("../controllers/userController");
 
-router.get("/home", showLanding); // masih percobaan
+router.get("/home", showLanding);    // landing page
+router.get("/", listUsers);          // list all users
 
-// route ke list all users
-router.get("/", listUsers);
+// Registration
+router.get("/register", registerUser);  // registration form
+router.post("/register", registerUser); // handle registration
 
-// route ke register new user
-router.post("/register", registerUser);
-
-// route log in a user
-router.post("/login", loginUser);
+// login
+router.get("/login", loginUser);  // login form
+router.post("/login", loginUser); // handle login
 
 module.exports = router;
