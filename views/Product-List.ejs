@@ -64,24 +64,14 @@
             />
             <div class="card-body d-flex flex-column">
               <h5 class="card-title"><%= product.name %></h5>
-              <p class="card-text"><%= product.price.toFixed(2) %></p>
+              <p class="card-text">Rp.<%= product.price.toFixed(2) %></p>
               <a href="/products/<%= product.id %>" class="btn btn-primary">
                 View Details
               </a>
-              <!-- <form action="/cart/add" method="POST" class="mt-auto">
-                <input
-                  type="hidden"
-                  name="productId"
-                  value="<%=// product.id %>"
-                />
-                <button type="submit" class="btn btn-success w-100">
-                  Add to Cart
-                </button>
-              </form> -->
               <a
                 href="/cart/add/<%= product.id %>"
                 class="btn btn-success w-100"
-                >Add To Cart</a
+                >Buy</a
               >
             </div>
           </div>

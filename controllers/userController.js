@@ -91,6 +91,41 @@ const logoutUser = (req, res) => {
   });
 };
 
+const getProfile = async (req, res) => {
+  const { id } = req.params;
+  const { role } = req.session;
+  try {
+    const user = await db.User.findByPk(req.session.userId);
+    const data = await db.User.findByPk(id, {
+      include: {
+        model: UserProfile,
+        required: false,
+      },
+    });
+    res.render("User-Profile", { user, data, role });
+  } catch (error) {
+    console.log(error);
+    res.send(error);
+  }
+};
+
+const postProfile = async (req, res) => {
+  const { id } = req.params;
+  const { firstName, lastName, address, phone } = req.body;
+  try {
+    await UserProfile.create({
+      firstName,
+      lastName,
+      address,
+      phone,
+      userId: id,
+    });
+    res.redirect(`/profile/${id}`);
+  } catch (error) {
+    res.send(error);
+  }
+};
+
 module.exports = {
   listUsers,
   registerUser,
@@ -98,4 +133,6 @@ module.exports = {
   showLanding,
   logoutUser,
   showLandingUser,
+  getProfile,
+  postProfile,
 };

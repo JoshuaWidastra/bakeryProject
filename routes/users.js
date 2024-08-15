@@ -6,7 +6,9 @@ const {
   loginUser,
   showLanding,
   logoutUser,
-  showLandingUser
+  showLandingUser,
+  getProfile,
+  postProfile,
 } = require("../controllers/userController");
 
 const isAuthenticated = (req, res, next) => {
@@ -17,17 +19,17 @@ const isAuthenticated = (req, res, next) => {
   }
 };
 
-router.get("/home", showLanding);    // landing page
-router.get("/", listUsers);          // list all users
+router.get("/home", showLanding); // landing page
+router.get("/", listUsers); // list all users
 
 router.get("/users", showLandingUser);
 
 // registration
-router.get("/register", registerUser);  // registration form
+router.get("/register", registerUser); // registration form
 router.post("/register", registerUser); // handle registration
 
 // login
-router.get("/login", loginUser);  // login form
+router.get("/login", loginUser); // login form
 router.post("/login", loginUser); // handle login
 
 // logout
@@ -38,5 +40,9 @@ router.get("/dashboard", isAuthenticated, (req, res) => {
   // render protected dashboard page
   res.render("Dashboard", { userId: req.session.userId });
 });
+
+//profile
+router.get("/profile/:id/add", getProfile);
+router.post("/profile/:id/add", postProfile);
 
 module.exports = router;

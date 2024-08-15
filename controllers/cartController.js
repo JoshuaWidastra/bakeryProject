@@ -3,24 +3,6 @@ const db = require("../models");
 
 // add item to cart
 const addToCart = async (req, res) => {
-  // const productId = req.body.productId;
-  // const quantity = req.body.quantity || 1;
-
-  // if (req.session.userId) {
-  //   const userId = req.session.userId;
-  //   await db.CartItem.upsert({
-  //     userId: userId,
-  //     productId: productId,
-  //     quantity: quantity,
-  //   });
-  // } else {
-  //   if (!req.session.cart) {
-  //     req.session.cart = [];
-  //   }
-  //   req.session.cart.push({ productId, quantity });
-  // }
-
-  // res.redirect('/cart');
   const { userId } = req.session;
   const { id } = req.params;
   try {
@@ -32,49 +14,47 @@ const addToCart = async (req, res) => {
   }
 };
 
-// vview cart items
+// view cart items
 const viewCart = async (req, res) => {
-  // let cartItems = [];
-  // if (req.session.userId) {
-  //   cartItems = await db.CartItem.findAll({
-  //     where: { userId: req.session.userId },
-  //     include: [db.Product],
-  //   });
-  // } else if (req.session.cart) {
-  //   cartItems = await Promise.all(
-  //     req.session.cart.map(async (item) => {
-  //       const product = await db.Product.findByPk(item.productId);
-  //       return { ...item, product };
-  //     })
-  //   );
-  // }
-  const cartItems = await db.Cart.findAll({
-    where: { UserId: req.session.userId },
-    include: [db.Product],
-  });
+  try {
+    const cartItems = await db.Cart.findAll({
+      where: { UserId: req.session.userId },
+      include: [db.Product],
+    });
 
-  res.render("Cart", { cartItems });
+    res.render("Cart", { cartItems });
+  } catch (err) {
+    console.error("Error viewing cart items:", err);
+    res.status(500).send("Internal Server Error");
+  }
 };
 
 // remove item from cart
 const removeFromCart = async (req, res) => {
-  const productId = req.body.productId;
+  const { productId } = req.params;
+  const { userId } = req.session;
+  console.log("Received productId:", productId);
+  console.log("Session User ID:", req.session.userId);
+  try {
+    if (req.session.userId) {
+      const userId = req.session.userId;
+      await db.Cart.destroy({
+        where: {
+          UserId: userId,
+          ProductId: productId,
+        },
+      });
+    } else {
+      req.session.cart = req.session.cart.filter(
+        (item) => item.productId !== productId
+      );
+    }
 
-  if (req.session.userId) {
-    const userId = req.session.userId;
-    await db.CartItem.destroy({
-      where: {
-        userId: userId,
-        productId: productId,
-      },
-    });
-  } else {
-    req.session.cart = req.session.cart.filter(
-      (item) => item.productId !== productId
-    );
+    res.redirect("/cart");
+  } catch (err) {
+    console.error("Error removing item from cart:", err);
+    res.status(500).send("Internal Server Error");
   }
-
-  res.redirect("/cart");
 };
 
 module.exports = { addToCart, viewCart, removeFromCart };
