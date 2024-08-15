@@ -24,7 +24,7 @@ const addToCart = async (req, res) => {
   const { userId } = req.session;
   const { id } = req.params;
   try {
-    await db.Cart.create({ ProductId: id, UserId: 1 });
+    await db.Cart.create({ ProductId: id, UserId: userId });
     res.redirect(`/cart`);
   } catch (err) {
     console.log(err);

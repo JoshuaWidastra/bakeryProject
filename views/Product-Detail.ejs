@@ -113,7 +113,7 @@
               <p><strong>Price:</strong> <%= product.price.toFixed(2) %></p>
               <p><strong>Description:</strong> <%= product.description %></p>
             </div>
-            <form action="/cart/add" method="POST">
+            <form action="/cart/add/<%= product.id %>" method="get">
               <input type="hidden" name="productId" value="<%= product.id %>" />
               <button type="submit" class="btn btn-success">Buy</button>
             </form>
