@@ -34,10 +34,12 @@ app.post("/register", registerUser);
 // other routes for later
 const productRoutes = require("./routes/products");
 const orderRoutes = require("./routes/orders");
+const cartRoutes = require("./routes/cart");
 
 app.use("/users", require("./routes/users"));
 app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
+app.use("/cart", cartRoutes);
 
 // error handling middleware
 app.use((err, req, res, next) => {
