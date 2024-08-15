@@ -6,6 +6,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       UserProfile.belongsTo(models.User, { foreignKey: 'userId' });
     }
+
+    // instance method
+    getFullName() {
+      return `${this.firstName} ${this.lastName}`;
+    }
   }
 
   UserProfile.init({

@@ -8,6 +8,17 @@ module.exports = (sequelize, DataTypes) => {
       Product.belongsTo(models.Category, { foreignKey: 'categoryId' });
       Product.belongsToMany(models.Order, { through: models.OrderItem, foreignKey: 'productId' });
     }
+
+    // instance dicounted price
+    getDiscountedPrice(discountPercentage) {
+      const discount = (this.price * discountPercentage) / 100;
+      return this.price - discount;
+    }
+
+    // instance convert rupiah
+    convertPriceToRupiah() {
+      return `Rp ${this.price.toLocaleString('id-ID')}`;
+    }
   }
 
   Product.init({
@@ -16,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.INTEGER,
     categoryId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
-    imageUrl: DataTypes.STRING 
+    imageUrl: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Product',
