@@ -71,38 +71,7 @@
   </head>
   <body>
     <header class="hero">
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="/">Bakery Shop</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/products">Product</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/cart">Cart</a>
-            </li>
-          </ul>
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/profile">User Profile</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <%- include('partials/navbar') %>
       <img src="/images/landingPage.jpg" alt="Bakery" class="img-fluid" />
       <div class="hero-text">
         <h1 class="display-3">Welcome, <%= user.email %>!</h1>

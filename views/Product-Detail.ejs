@@ -11,11 +11,33 @@
         background-color: #f8f9fa; /* Light gray background */
       }
 
+      .navbar {
+        background-color: #343a40; /* Dark gray background */
+        border-bottom: 1px solid #dee2e6; /* Light gray border */
+      }
+
+      .navbar-nav .nav-link {
+        color: #ffffff; /* White text color */
+      }
+
+      .navbar-nav .nav-link:hover {
+        color: #d4d4d4; /* Light gray text color on hover */
+      }
+
+      .navbar-brand {
+        color: #ffffff; /* White text color for brand */
+      }
+
+      .navbar-brand:hover {
+        color: #d4d4d4; /* Light gray text color on hover */
+      }
+
       .product-container {
         background-color: #ffffff; /* White background for product details */
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 100px; /* To ensure space from the navbar */
       }
 
       .product-img {
@@ -37,6 +59,7 @@
       .btn {
         margin-top: 10px;
         width: 100%;
+        transition: background-color 0.3s ease, transform 0.3s ease;
       }
 
       .btn-success {
@@ -47,6 +70,7 @@
       .btn-success:hover {
         background-color: #218838;
         border-color: #1e7e34;
+        transform: scale(1.05);
       }
 
       .btn-primary {
@@ -57,6 +81,7 @@
       .btn-primary:hover {
         background-color: #0056b3;
         border-color: #004085;
+        transform: scale(1.05);
       }
 
       .back-btn {
@@ -66,6 +91,11 @@
     </style>
   </head>
   <body>
+    <header>
+      <%- include('partials/navbar') %>
+      <!-- Include partial navbar here -->
+    </header>
+
     <div class="container mt-5">
       <div class="product-container">
         <h1 class="text-center mb-4"><%= product.name %></h1>
