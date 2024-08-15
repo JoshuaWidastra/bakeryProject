@@ -48,4 +48,5 @@ const viewProduct = async (req, res) => {
   }
 };
 
+
 module.exports = { listProducts, createProduct, viewProduct };
