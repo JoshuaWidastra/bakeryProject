@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bakery List</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <style>
+      /* Custom CSS */
+      .card-img-top {
+        height: 200px;
+        object-fit: cover;
+      }
+      .card-title {
+        font-size: 1.2rem;
+      }
+      .card-text {
+        font-size: 1rem;
+      }
+      .btn {
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">Our Bakery Products</h1>
+      <div class="row">
+        <% products.forEach(function(product) { %>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <img
+              src="<%= product.image %>"
+              class="card-img-top"
+              alt="<%= product.name %>"
+            />
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title"><%= product.name %></h5>
+              <p class="card-text"><%= product.price.toFixed(2) %></p>
+              <a href="/product/<%= product.id %>" class="btn btn-primary"
+                >View Details</a
+              >
+              <form action="/cart/add" method="POST" class="mt-auto">
+                <input
+                  type="hidden"
+                  name="productId"
+                  value="<%= product.id %>"
+                />
+                <button type="submit" class="btn btn-success w-100">
+                  Add to Cart
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
