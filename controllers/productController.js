@@ -37,9 +37,9 @@ const createProduct = async (req, res) => {
 const viewProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await db.Product.findByPk(id);
+    const product = await db.Product.findByPk(id, { include: [db.Category] });
     if (product) {
-      res.json(product);
+      res.render("Product-Detail", { product });
     } else {
       res.status(404).json({ message: "Product not found" });
     }

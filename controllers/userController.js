@@ -27,17 +27,21 @@ const registerUser = async (req, res) => {
       const { email, password, role } = req.body;
 
       if (!email || !password || !role) {
-        return res.status(400).render("Register", { message: "All fields are required" });
+        return res
+          .status(400)
+          .render("Register", { message: "All fields are required" });
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
       await db.User.create({ email, password: hashedPassword, role });
       res.render("Register", { message: "Registration successful" });
     } else {
-      res.render("Register");
+      res.render("Login");
     }
   } catch (error) {
-    res.status(500).render("Register", { message: "Error registering user", error });
+    res
+      .status(500)
+      .render("Register", { message: "Error registering user", error });
   }
 };
 
@@ -48,14 +52,16 @@ const loginUser = async (req, res) => {
       const { email, password } = req.body;
 
       if (!email || !password) {
-        return res.status(400).render("Login", { message: "All fields are required" });
+        return res
+          .status(400)
+          .render("Login", { message: "All fields are required" });
       }
 
       const user = await db.User.findOne({ where: { email } });
-      if (user && await bcrypt.compare(password, user.password)) {
+      if (user && (await bcrypt.compare(password, user.password))) {
         // save user id in session
         req.session.userId = user.id;
-        res.redirect("/dashboard"); // redirect to... 
+        res.redirect("/users"); // redirect to...
       } else {
         res.status(401).render("Login", { message: "Invalid credentials" });
       }
@@ -69,7 +75,7 @@ const loginUser = async (req, res) => {
 
 // log out a user
 const logoutUser = (req, res) => {
-  req.session.destroy(err => {
+  req.session.destroy((err) => {
     if (err) {
       return res.status(500).json({ message: "Error logging out", error: err });
     }
@@ -77,4 +83,10 @@ const logoutUser = (req, res) => {
   });
 };
 
-module.exports = { listUsers, registerUser, loginUser, showLanding, logoutUser };
+module.exports = {
+  listUsers,
+  registerUser,
+  loginUser,
+  showLanding,
+  logoutUser,
+};
