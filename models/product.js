@@ -4,12 +4,9 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
     static associate(models) {
-      Product.belongsTo(models.User, { foreignKey: 'userId' });
-      Product.belongsTo(models.Category, { foreignKey: 'categoryId' });
-      Product.belongsToMany(models.Order, { through: models.OrderItem, foreignKey: 'productId' });
     }
 
-    // instance dicounted price
+    // instance discount price
     getDiscountedPrice(discountPercentage) {
       const discount = (this.price * discountPercentage) / 100;
       return this.price - discount;
