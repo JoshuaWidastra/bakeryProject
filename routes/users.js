@@ -5,17 +5,35 @@ const {
   registerUser,
   loginUser,
   showLanding,
+  logoutUser
 } = require("../controllers/userController");
+
+const isAuthenticated = (req, res, next) => {
+  if (req.session.userId) {
+    return next();
+  } else {
+    res.redirect("/login");
+  }
+};
 
 router.get("/home", showLanding);    // landing page
 router.get("/", listUsers);          // list all users
 
-// Registration
+// registration
 router.get("/register", registerUser);  // registration form
 router.post("/register", registerUser); // handle registration
 
 // login
 router.get("/login", loginUser);  // login form
 router.post("/login", loginUser); // handle login
+
+// logout
+router.get("/logout", logoutUser); // handle logout
+
+// protected route example
+router.get("/dashboard", isAuthenticated, (req, res) => {
+  // render protected dashboard page
+  res.render("Dashboard", { userId: req.session.userId });
+});
 
 module.exports = router;
