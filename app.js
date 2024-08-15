@@ -1,12 +1,21 @@
 const express = require("express");
+const session = require("express-session");
 const app = express();
 const { registerUser, loginUser } = require("./controllers/userController");
 
-// middleware parse JSON and URL-encoded data
+// session config. set accordingly
+app.use(session({
+    secret: 'anySecretKey', // secret key up to u
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // https => true
+  }));
+
+// middleware parse
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// view engine to EJS
+// view engine EJS
 app.set("view engine", "ejs");
 app.use(express.static("public"));  // static "public" directory
 

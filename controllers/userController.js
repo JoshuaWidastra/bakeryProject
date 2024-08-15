@@ -1,7 +1,7 @@
 const db = require("../models");
 const bcrypt = require("bcryptjs");
 
-// show landing page
+// landing page
 const showLanding = async (req, res) => {
   try {
     res.render("Homepage");
@@ -14,7 +14,7 @@ const showLanding = async (req, res) => {
 const listUsers = async (req, res) => {
   try {
     const users = await db.User.findAll();
-    res.render("Homepage", { users }); // pass users to the view
+    res.render("Homepage", { users }); // pass user to ...
   } catch (error) {
     res.status(500).json({ message: "Error fetching users", error });
   }
@@ -53,7 +53,9 @@ const loginUser = async (req, res) => {
 
       const user = await db.User.findOne({ where: { email } });
       if (user && await bcrypt.compare(password, user.password)) {
-        res.render("Login", { message: "Login successful", user });
+        // save user id in session
+        req.session.userId = user.id;
+        res.redirect("/dashboard"); // redirect to... 
       } else {
         res.status(401).render("Login", { message: "Invalid credentials" });
       }
@@ -65,4 +67,14 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { listUsers, registerUser, loginUser, showLanding };
+// log out a user
+const logoutUser = (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.status(500).json({ message: "Error logging out", error: err });
+    }
+    res.redirect("/login");
+  });
+};
+
+module.exports = { listUsers, registerUser, loginUser, showLanding, logoutUser };
