@@ -1,5 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
+const { sendWelcomeEmail } = require('../services/mailer');
+const { getMostPopularItem } = require('../services/popularity');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -31,6 +33,21 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
+  });
+
+  //hook mailer
+  User.addHook('afterCreate', (user, options) => {
+    sendWelcomeEmail(user.email);
+  });
+
+  //hook popular item
+  User.addHook('afterFind', async (user, options) => {
+    if (user && user.role === 'admin') {
+      const popularItem = await getMostPopularItem();
+      if (popularItem) {
+        user.dataValues.mostPopularItem = popularItem;
+      }
+    }
   });
   
   return User;
