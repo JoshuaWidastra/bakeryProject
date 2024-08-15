@@ -9,7 +9,7 @@ const {
   showLanding,
 } = require("../controllers/userController");
 
-router.get("/", showLanding); // masih percobaan
+router.get("/home", showLanding); // masih percobaan
 
 // route ke list all users
 router.get("/", listUsers);
