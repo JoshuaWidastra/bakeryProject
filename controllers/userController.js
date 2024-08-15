@@ -21,8 +21,8 @@ const showLandingUser = async (req, res) => {
 // list users
 const listUsers = async (req, res) => {
   try {
-    const users = await db.User.findAll();
-    res.render("Homepage", { users }); // pass user to ...
+    const user = await db.User.findAll();
+    res.render("Homepage-User", { user }); // pass user to ...
   } catch (error) {
     res.status(500).json({ message: "Error fetching users", error });
   }
