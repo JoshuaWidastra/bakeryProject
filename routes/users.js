@@ -42,7 +42,7 @@ router.get("/dashboard", isAuthenticated, (req, res) => {
 });
 
 //profile
-router.get("/profile/:id/add", getProfile);
+router.get("/profile/:id", getProfile);
 router.post("/profile/:id/add", postProfile);
 
 module.exports = router;
