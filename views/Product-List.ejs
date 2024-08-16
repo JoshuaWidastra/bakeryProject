@@ -64,7 +64,7 @@
             />
             <div class="card-body d-flex flex-column">
               <h5 class="card-title"><%= product.name %></h5>
-              <p class="card-text">Rp.<%= product.price.toFixed(2) %></p>
+              <p class="card-text"><%= product.convertPriceToRupiah() %></p>
               <a href="/products/<%= product.id %>" class="btn btn-primary">
                 View Details
               </a>
